@@ -31,7 +31,7 @@ async function main() {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: [process.env.ORIGIN_URL],
+  origin: ["https://zaid-khan.vercel.app"],
   methods: ['GET', 'POST'],
   credentials: true,
 }));
