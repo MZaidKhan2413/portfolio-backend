@@ -1,10 +1,13 @@
-<div>
+<% layout("./boilerplate.ejs") %>
+
+<div class="p-2">
     <% for(let contact of contacts) { %>
-        <div>
+        <div class="p-2 border border-dark">
             <h1><%= contact.name %></h1>
             <h3><%= contact.subject %></h3>
             <p><%= contact.message %></p>
             <p>Email: <%= contact.email %></p>
+            <span>Time: <%= contact.createdAt %></span>
         </div>
     <% } %>
 </div>
