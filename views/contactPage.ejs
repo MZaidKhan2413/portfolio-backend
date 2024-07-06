@@ -1,0 +1,10 @@
+<div>
+    <% for(let contact of contacts) { %>
+        <div>
+            <h1><%= contact.name %></h1>
+            <h3><%= contact.subject %></h3>
+            <p><%= contact.message %></p>
+            <p>Email: <%= contact.email %></p>
+        </div>
+    <% } %>
+</div>
