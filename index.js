@@ -24,14 +24,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000,
-    keepAlive: true,
-    keepAliveInitialDelay: 300000,
-  });
+  await mongoose.connect(MONGO_URL);
 }
 
 // Middleware
