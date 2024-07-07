@@ -9,6 +9,8 @@ const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const cors = require("cors");
 const Contact = require("./models/contact.js");
+const methodOverride = require("method-override");
+const truncateString = require("./utils/truncateStr.js");
 
 const PORT = process.env.PORT || 3000;
 const MONGO_URL = process.env.ATLAS_URL || "mongodb://127.0.0.1:27017/contact";
@@ -41,6 +43,7 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(methodOverride('_method'));
 
 // Routes
 app.get("/", (req, res) => {
@@ -68,7 +71,7 @@ app.post("/api/v1/contact", async (req, res) => {
 app.get("/api/v1/contact", async (req, res) => {
   try {
     const contacts = await Contact.find({});
-    res.render("contactPage.ejs", { contacts });
+    res.render("contactPage.ejs", { contacts, truncate: truncateString });
   } catch (error) {
     console.error("Error fetching contacts:", error);
     res.status(500).json({
@@ -77,6 +80,44 @@ app.get("/api/v1/contact", async (req, res) => {
     });
   }
 });
+
+app.get("/api/v1/contact/:id", async (req, res) => {
+  try {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) {
+      return res.status(404).json({
+        message: "Contact not found",
+        success: false,
+      });
+    }
+    res.render("message.ejs", { contact });
+  } catch (error) {
+    console.error("Error fetching contact:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching contact",
+      success: false,
+    });
+  }
+});
+
+app.delete("/api/v1/contact/:id", async (req, res) => {
+  try {
+    const contact = await Contact.findByIdAndDelete(req.params.id);
+    if (!contact) {
+      return res.status(404).json({
+        message: "Contact not found",
+        success: false,
+      });
+    }
+    res.redirect("/api/v1/contact");
+  } catch (error) {
+    console.error("Error deleting contact:", error);
+    res.status(500).json({
+      message: "An error occurred while deleting contact",
+      success: false,
+    });
+  }
+})
 
 // Starting the server
 app.listen(PORT, () => {
