@@ -1,13 +1,29 @@
 <% layout("./boilerplate.ejs") %>
 
-<div class="p-2">
+<h1>All messages</h1>
+<div class="p-md-2 p-3 row gap-4 justify-content-center">
     <% for(let contact of contacts) { %>
-        <div class="p-2 border border-dark">
-            <h1><%= contact.name %></h1>
-            <h3><%= contact.subject %></h3>
-            <p><%= contact.message %></p>
-            <p>Email: <%= contact.email %></p>
-            <span>Time: <%= contact.createdAt %></span>
+        <div class="contact d-flex flex-column col-lg-3 col-md-5 col-12">
+            <div class="contact-name py-2 px-4">
+                <h2><%= contact.name %></h2>
+                <a href="mailto: <%= contact.email %> %>" class="contact-mail"><%= contact.email %></a>
+            </div>
+            <h5 class="px-4 py-2 border-bottom"><%= contact.subject %></h5>
+            <p class="contact-msg px-4 py-2"><%= truncate(contact.message) %></p>
+            <span class="contact-date text-end px-4 py-2 mt-auto"><%= new Date(contact.createdAt).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            }) %></span>
+            <hr>
+            <div class="px-4 py-2 d-flex align-items-center gap-2">
+                <a href="/api/v1/contact/<%= contact._id %>" class="btn btn-sm btn-primary">More</a>
+                <form action="/api/v1/contact/<%= contact._id %>?_method=DELETE" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </div>
         </div>
     <% } %>
 </div>
