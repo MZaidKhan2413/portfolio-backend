@@ -1,0 +1,16 @@
+<% layout("./boilerplate.ejs") %>
+
+<div class="message-box d-flex align-items-center justify-content-center">
+    <div class="message-box-inner p-4">
+        <div class="pb-1">
+            <h1><%= contact.name %></h1>
+            <a href="mailto: <%= contact.email %> %>" class="opacity-75"><%= contact.email %></a>
+        </div>
+        <hr>
+        <div class="py-2">
+            <h5><%= contact.subject %></h5>
+            <p class="opacity-75"><%= contact.message %></p>
+        </div>
+        <a href="/api/v1/contact" class="btn btn-sm btn-primary">Go Back</a>
+    </div>
+</div>
